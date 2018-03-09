@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>words</title>
+</head>
+<body>
+<div hidden id="work">
+    <progress id="progress" value="0" max="60" min="0" style="width: 100%"></progress>
+    <br>
+    <canvas id="canvas" hidden width="720" height="450"></canvas>
+    <video id="awesome" width="720" height="450" controls autoplay loop></video>
+    <br>
+    Status: <span id="status">Idle</span>
+    <a style="display:none" id="download" download="clock.webm">Download WebM</a>
+</div>
+<div style="font-size: 30px;">
+    <input type="text" id="input" placeholder="请输入待渲染的文字内容" style="width: 100%"/>
+    <button type="button" id="start" style="width: 100%;">开始渲染</button>
+</div>
+
+<script src="whammy.js"></script>
+<script>
+    (function () {
+        var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
+            window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+        window.requestAnimationFrame = requestAnimationFrame;
+    })();
+
+    var words = '画布（每 20 毫秒，代码就会绘制视频的当前帧）',
+        i = 1,
+        len = words.length,
+        str;
+
+    function getCxt(string) {
+        var c = document.getElementById('canvas');
+        var cxt = c.getContext('2d');
+        var img = new Image();
+        img.src = 'images/1.jpg';
+        cxt.drawImage(img, 0, 0, 720, 450);
+        cxt.font = '30px Georgia';
+        cxt.fillText(string, 10, 70);
+
+        cxt.save();
+        cxt.restore();
+        return cxt;
+    }
+
+    var video = new Whammy.Video();
+    var progress = document.getElementById('progress');
+
+
+    function nextFrame() {
+        str = words.substr(0, i);
+        i++;
+//        console.log(str);
+        var context = getCxt(str);
+        video.add(context, 100);
+        progress.value = (i / len) * progress.max;
+        if (i <= len) {
+            requestAnimationFrame(nextFrame);
+            document.getElementById('status').innerHTML = "Drawing Frames";
+        } else {
+            document.getElementById('status').innerHTML = "Compiling Video";
+            requestAnimationFrame(finalizeVideo);
+        }
+    }
+
+    function finalizeVideo() {
+        var start_time = +new Date;
+        var output = video.compile();
+        var end_time = +new Date;
+        var url = webkitURL.createObjectURL(output);
+
+        document.getElementById('awesome').src = url; //toString converts it to a URL via Object URLs, falling back to DataURL
+        document.getElementById('download').style.display = '';
+        document.getElementById('download').href = url;
+        document.getElementById('status').innerHTML = "Compiled Video in " + (end_time - start_time) + "ms, file size: " + Math.ceil(output.size / 1024) + "KB";
+    }
+
+    var startBtn = document.getElementById('start');
+    startBtn.onclick = function () {
+        words = document.getElementById('input').value;
+        document.getElementById('work').style.display = 'block';
+        nextFrame();
+    }
+
+    //    nextFrame();
+</script>
+</body>
+</html>
