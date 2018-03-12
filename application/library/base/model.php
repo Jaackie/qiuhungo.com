@@ -14,6 +14,8 @@ class base_model
      */
     protected $__table_name = '';
 
+    protected $__table;
+
 
     /**
      * @param string $id
@@ -37,7 +39,29 @@ class base_model
      */
     public function table($tableName = null)
     {
-        return Table::instance($tableName === null ? $this->__table_name : $tableName);
+        if (!$this->__table) {
+            $this->__table = Table::instance($this->__table_name);
+        }
+        return $this->__table->setTable($tableName === null ? $this->__table_name : $tableName);
+    }
+
+    /**
+     * 查询一条记录，支持字段联合查询，以','号分隔，默认主键。（对象模型中的字段和值确保存在）
+     * @param string $key
+     * @return array
+     */
+    protected function find($key = null)
+    {
+       /* $key = $key ?: $this->primaryKey;
+        $keyArr = explode(',', $key);
+
+        foreach ($keyArr as $field) {
+            $transField = self::_transField($field);
+            if (!property_exists($this, $transField)) return [];
+            $this->db()->where($field, $this->$transField);
+        }
+
+        return $this->db()->select()->from($this->table)->fetch();*/
     }
 
 }
