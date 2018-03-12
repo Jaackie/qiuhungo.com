@@ -83,7 +83,7 @@ class Table
      * Table constructor.
      * @param $tableName
      */
-    public function __construct($tableName)
+    public function __construct($tableName = '')
     {
         $this->setTable($tableName);
     }
@@ -92,7 +92,7 @@ class Table
      * @param $tableName
      * @return Table
      */
-    public static function instance($tableName)
+    public static function instance($tableName = '')
     {
         if (!(self::$_instance instanceof self)) {
             self::$_instance = new self($tableName);
@@ -350,8 +350,8 @@ class Table
 
     /**
      * 获取查询结果
-     * @return array|bool
-     * @throws Exception
+     * @return array
+     * @throws
      */
     public function get()
     {
@@ -375,6 +375,7 @@ class Table
     /**
      * 统计条数
      * @return bool|int
+     * @throws
      */
     public function count()
     {
