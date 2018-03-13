@@ -311,7 +311,6 @@ class Table
      * @param mixed $param 为数组时合并到params中, 为字符串时加入到params
      * @param $value
      * @return $this
-     * @throws Exception
      */
     public function param($param, $value = null)
     {
@@ -330,7 +329,6 @@ class Table
 
     /**
      * 拼接sql句子
-     * @throws Exception
      */
     private function _makeSql()
     {
@@ -351,7 +349,6 @@ class Table
     /**
      * 获取查询结果
      * @return array
-     * @throws
      */
     public function get()
     {
@@ -375,7 +372,6 @@ class Table
     /**
      * 统计条数
      * @return bool|int
-     * @throws
      */
     public function count()
     {
@@ -391,7 +387,6 @@ class Table
      * @param bool $lastId 是否返回最后插入id
      * @param null|string $onDuplicate 重复时更新字段字符串, 多个以','分隔, 支持'+','-'操作, 如: a,+b,-c,d
      * @return bool|int
-     * @throws Exception
      */
     public function insert($values = [], $lastId = false, $onDuplicate = null)
     {
@@ -475,7 +470,6 @@ class Table
     /**
      * 单条记录更新
      * @return int|bool
-     * @throws Exception
      */
     public function update()
     {
@@ -523,7 +517,6 @@ class Table
     /**
      * 删除
      * @return int|bool
-     * @throws Exception
      */
     public function delete()
     {
