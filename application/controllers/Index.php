@@ -15,7 +15,7 @@ class IndexController extends base_controller
 
     public function testAction()
     {
-        __d(testModel::instance()->find(1));
+        __d(r());
     }
 
 }

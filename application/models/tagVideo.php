@@ -16,7 +16,7 @@ class tagVideoModel extends base_model
 
     public function __construct($id = 0)
     {
-
+        $this->setId($id);
     }
 
     /**

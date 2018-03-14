@@ -19,6 +19,11 @@ class Bootstrap extends Yaf_Bootstrap_Abstract
         $dispatcher->autoRender(false);
     }
 
+    public function _initImport()
+    {
+        Yaf_Loader::import(APPLICATION_PATH . '/application/functions/app.php');
+    }
+
     public function _initView(Yaf_Dispatcher $dispatcher)
     {
         //命令行下基本不需要使用smarty
