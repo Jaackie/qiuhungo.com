@@ -68,20 +68,26 @@
             <!-- 左侧导航菜单 Start -->
             <nav class="menu" data-toggle="menu" id="mat-nav">
                 <ul class="nav">
-                    <li class="header">菜单分类</li>
-                    <li class="nav-parent">
-                        <a href="javascript:;">
-                            <i class="icon icon-list"></i>
-                            <span class="title">产品线管理</span>
-                        </a>
-                        <ul class="nav">
-                            <li class="">
-                                <a href="/product/product">
-                                    <span class="title">产品线列表</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
+                    <!--                    <li class="header">菜单分类</li>-->
+                    <?php foreach ($menu as $controller => $info): ?>
+                        <li class="nav-parent">
+                            <a href="<?= is_array($info['action']) ? 'javascript:;' : '/admin/' . $controller . '/' . $info['action']; ?>">
+                                <i class="icon icon-list"></i>
+                                <span class="title"><?= $info['name']; ?></span>
+                            </a>
+                            <?php if (is_array($info['action'])): ?>
+                                <ul class="nav">
+                                    <?php foreach ($info['action'] as $action => $name): ?>
+                                        <li class="">
+                                            <a href="/admin/<?= $controller . '/' . $action; ?>">
+                                                <span class="title"><?= $name; ?></span>
+                                            </a>
+                                        </li>
+                                    <?php endforeach; ?>
+                                </ul>
+                            <?php endif; ?>
+                        </li>
+                    <?php endforeach; ?>
                 </ul>
             </nav>
             <!-- 左侧导航菜单 End -->

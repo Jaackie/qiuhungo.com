@@ -12,5 +12,5 @@ function r()
 
 function include_view($viewName, $module = 'Admin')
 {
-    include APPLICATION_PATH . '/application/modules/' . $module . '/views/' . $viewName . '.phtml';
+    include(APPLICATION_PATH . '/application/modules/' . $module . '/views/' . $viewName . '.phtml');
 }

@@ -141,5 +141,13 @@ class videoModel extends base_model
         ]);
     }
 
+    public static function createPathName()
+    {
+        $time = time();
+        $dir = APPLICATION_PATH . '/public/r/video/' . date('y/m/d/', $time);
+        $name = $time . '.mp4';
+        return [$dir, $dir . $name, $name,];
+    }
+
 
 }

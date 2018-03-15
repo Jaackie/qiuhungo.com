@@ -11,13 +11,8 @@ class IndexController extends base_controllerAdmin
 
     public function indexAction()
     {
-        echo 'Jaackie Admin!';
-    }
-
-    public function helloAction()
-    {
         $this->_view->assign('name', $this->get('name', 'Jaackie'));
-        $this->display('hello');
+        $this->show('hello');
     }
 
 }

@@ -189,4 +189,35 @@ class base_controller extends Yaf_Controller_Abstract
         return $return;
     }
 
+    /**
+     * @param $name
+     * @param mixed $value
+     */
+    protected function assign($name, $value = null)
+    {
+        if (is_array($name)) {
+            foreach ($name as &$val) {
+                self::_htmlSpecialChars($val);
+            }
+        } else {
+            self::_htmlSpecialChars($value);
+        }
+        $this->_view->assign($name, $value);
+    }
+
+    /**
+     * 输出过滤
+     * @param $value
+     */
+    private static function _htmlSpecialChars(&$value)
+    {
+        if (is_array($value)) {
+            foreach ($value as $val) {
+                self::_htmlSpecialChars($val);
+            }
+        } else {
+            $value = is_numeric($value) || is_bool($value) ? $value : htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
+        }
+    }
+
 }
