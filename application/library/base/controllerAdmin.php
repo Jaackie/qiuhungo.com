@@ -32,5 +32,15 @@ class base_controllerAdmin extends base_controller
         }
     }
 
+    protected function __errorAjax($message = '', $code = 1, $data = [])
+    {
+        $this->__response($code, $data, $message);
+    }
+
+    protected function __successAjax($data = [], $code = 0, $message = '')
+    {
+        $this->__response($code, $data, $message);
+    }
+
 
 }

@@ -130,12 +130,12 @@ $.extend({
         if (isSimplePager) {
             //仅有上一页/下一页的简单分页条
             html = '<ul class="pager mt-pager">' +
-                    '<li'+ (disabledPrevPage ? ' class="disabled"' : '') +'>' +
-                        '<a'+ (disabledPrevPage ? '' : ' href="'+ prevLink +'"') +'>上一页</a>' +
-                    '</li>' +
-                    '<li'+ (disabledNextPage ? ' class="disabled"' : '') +'>' +
-                        '<a'+ (disabledNextPage ? '' : ' href="'+ nextLink +'"') +'>下一页</a>' +
-                    '</li>' +
+                '<li'+ (disabledPrevPage ? ' class="disabled"' : '') +'>' +
+                '<a'+ (disabledPrevPage ? '' : ' href="'+ prevLink +'"') +'>上一页</a>' +
+                '</li>' +
+                '<li'+ (disabledNextPage ? ' class="disabled"' : '') +'>' +
+                '<a'+ (disabledNextPage ? '' : ' href="'+ nextLink +'"') +'>下一页</a>' +
+                '</li>' +
                 '</ul>';
         } else {
             var interval = Math.ceil(displayPageNum / 2) - 1;
@@ -162,9 +162,9 @@ $.extend({
             }
 
             html = '<ul class="pager mt-pager">' +
-                    '<li'+ (disabledPrevPage ? ' class="disabled"' : '') +'>' +
-                        '<a'+ (disabledPrevPage ? '' : ' href="'+ prevLink +'"') +'>上一页</a>' +
-                    '</li>';
+                '<li'+ (disabledPrevPage ? ' class="disabled"' : '') +'>' +
+                '<a'+ (disabledPrevPage ? '' : ' href="'+ prevLink +'"') +'>上一页</a>' +
+                '</li>';
             if (startPage > 1) {
                 //首页
                 params['page'] = 1;
@@ -186,8 +186,8 @@ $.extend({
                 html += '<li><a href="'+ location.pathname + $.buildQuery(params) +'">'+ maxPage +'</a></li>';
             }
             html += '<li'+ (disabledNextPage ? ' class="disabled"' : '') +'>' +
-                        '<a'+ (disabledNextPage ? '' : ' href="'+ nextLink +'"') +'>下一页</a>' +
-                    '</li>' +
+                '<a'+ (disabledNextPage ? '' : ' href="'+ nextLink +'"') +'>下一页</a>' +
+                '</li>' +
                 '</ul>';
         }
         $this.html(html);

@@ -133,7 +133,7 @@ class base_controller extends Yaf_Controller_Abstract
         if ($message !== null) {
             $data['msg'] = $message;
         }
-        $res = json_encode($data);
+        $res = json_encode($data, JSON_UNESCAPED_UNICODE);
 
         if ($this->_callback) {
             echo $this->_callback, '(', $res, ');';

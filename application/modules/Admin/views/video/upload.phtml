@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="<?= r(); ?>css/zui.uploader.min.css">
 <script src="<?= r(); ?>js/zui.uploader.min.js"></script>
 <div class="row">
-    <form class="form-horizontal" id="add-form" action="/auth/team/add" method="POST">
+    <form class="form-horizontal" id="add-form" action="/admin/video/save" method="POST">
         <div class="form-group">
 
         </div>
@@ -16,33 +16,59 @@
                 </div>
             </div>
         </div>
-        <div class="form-group">
-            <label for="field-remark" class="col-sm-2">备注</label>
-            <div class="col-sm-8">
-                <input type="text" class="form-control" id="field-remark" name="remark"
-                       value=""/>
+        <div class="hide" id="js-info">
+            <div class="form-group">
+                <label for="field-remark" class="col-sm-2">简介</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" name="intro" value="" placeholder="视频简介200字以内"/>
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" name="submit" value="1" class="btn btn-info">上传</button>
+            <div class="form-group">
+                <label for="field-remark" class="col-sm-2">时长</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" name="time_length" value="" placeholder="如：00:15"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="field-remark" class="col-sm-2">分类标签</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" name="tag_str" value="" placeholder="分类，多个分类以逗号','分隔"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <input class="hide" name="video_id" id="js-video-id" value=""/>
+                    <button type="submit" class="btn btn-info">保存</button>
+                </div>
             </div>
         </div>
     </form>
 </div>
 <script>
     $(function () {
-        $("#add-form").myAjaxForm();
+        $("#save-form").myAjaxForm();
+
         $('#uploader').uploader({
             autoUpload: true,            // 当选择文件后立即自动进行上传操作
             url: '/admin/video/add',  // 文件上传提交地址
             filters: {
-                // 只允许上传图片或图标（.ico）
                 mime_types: [
-                    {title: '视频', extensions: 'mp4'},
+                    {title: '视频', extensions: 'mp4'}
                 ],
                 // 不允许上传重复文件
                 prevent_duplicates: true
+            },
+            limitFilesCount: 1,
+            chunk_size: 0,
+            responseHandler: function (responseObject) {
+                // 当服务器返回的文本内容包含 `'error'` 文本时视为上传失败
+                var res = JSON.parse(responseObject.response);
+                if (+res.code !== 0) {
+                    alert(res.msg);
+                } else {
+                    $("#js-info").removeClass('hide');
+                    $("#js-video-id").val(res.result.video_id);
+                }
             }
         });
     })

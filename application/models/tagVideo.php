@@ -96,7 +96,7 @@ class tagVideoModel extends base_model
             if ($tag_id) {
                 $insert[] = [
                     'tag_id' => $tag_id,
-                    'video_id' => $this->tag_id,
+                    'video_id' => $this->video_id,
                     'create_time' => $this->create_time,
                 ];
             }

@@ -15,7 +15,7 @@ class IndexController extends base_controller
 
     public function testAction()
     {
-        __d(r());
+        __d(videoModel::instance()->getAll());
     }
 
 }

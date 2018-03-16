@@ -138,7 +138,7 @@ class videoModel extends base_model
             'like_num' => $this->like_num,
             'create_time' => $this->create_time,
             'update_time' => $this->update_time
-        ]);
+        ], true);
     }
 
     public static function createPathName()
@@ -147,6 +147,17 @@ class videoModel extends base_model
         $dir = APPLICATION_PATH . '/public/r/video/' . date('y/m/d/', $time);
         $name = $time . '.mp4';
         return [$dir, $dir . $name, $name,];
+    }
+
+    public function saveInfo()
+    {
+        $this->setUpdateTime();
+        return $this->save('intro,time_length,update_time');
+    }
+
+    public function getAll($page = 1, $num = 10)
+    {
+        return $this->table()->page($num, $page)->get();
     }
 
 
