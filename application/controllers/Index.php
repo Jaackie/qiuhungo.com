@@ -13,9 +13,4 @@ class IndexController extends base_controller
         echo "Hello! Welcome to Qiuhungo!";
     }
 
-    public function testAction()
-    {
-        __d(videoModel::instance()->getAll());
-    }
-
 }

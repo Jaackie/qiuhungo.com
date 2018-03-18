@@ -144,20 +144,33 @@ class videoModel extends base_model
     public static function createPathName()
     {
         $time = time();
-        $dir = APPLICATION_PATH . '/public/r/video/' . date('y/m/d/', $time);
+        $uri = 'video/' . date('y/m/d/', $time);
+        $dir = APPLICATION_PATH . '/public/r/' . $uri;
+
         $name = $time . '.mp4';
-        return [$dir, $dir . $name, $name,];
+        return [$dir, $dir . $name, $uri, $name,];
     }
 
     public function saveInfo()
     {
         $this->setUpdateTime();
-        return $this->save('intro,time_length,update_time');
+        return $this->save('intro,cover,time_length,update_time');
     }
 
     public function getAll($page = 1, $num = 10)
     {
         return $this->table()->page($num, $page)->get();
+    }
+
+    public function deleteVideo()
+    {
+        if (!$this->isInit()) return false;
+        $res = $this->delete();
+        if ($res) {
+            $path = Uploader::dir() . $this->url;
+            unlink($path);
+        }
+        return $res;
     }
 
 

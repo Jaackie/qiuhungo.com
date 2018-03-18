@@ -192,8 +192,9 @@ class base_controller extends Yaf_Controller_Abstract
     /**
      * @param $name
      * @param mixed $value
+     * @return $this
      */
-    protected function assign($name, $value = null)
+    protected function __assign($name, $value = null)
     {
         if (is_array($name)) {
             foreach ($name as &$val) {
@@ -203,6 +204,7 @@ class base_controller extends Yaf_Controller_Abstract
             self::_htmlSpecialChars($value);
         }
         $this->_view->assign($name, $value);
+        return $this;
     }
 
     /**

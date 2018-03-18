@@ -12,7 +12,30 @@ class base_controllerAdmin extends base_controller
     public function init()
     {
         parent::init();
+        self::_ipLimit();
         $this->_view->assign('menu', menuModel::admin());
+        $this->_view->assign('_c', strtolower($this->_request->getControllerName()));
+        $this->_view->assign('_a', $this->_request->getActionName());
+    }
+
+    /**
+     * ip限制
+     * @return bool
+     */
+    private static function _ipLimit()
+    {
+        $ip = tool_ip::get();
+        if ($ip && $ip != 'unknown') {
+            $ip_list = file_get_contents(APPLICATION_PATH . '/conf/ip.text');
+            $ip_arr = explode("\n", $ip_list);
+            foreach ($ip_arr as $ip_white) {
+                if ($ip == $ip_white) {
+                    return true;
+                }
+            }
+        }
+        header('HTTP/1.1 403 Forbidden');
+        return false || exit;
     }
 
     /**
@@ -21,11 +44,12 @@ class base_controllerAdmin extends base_controller
      * @param bool $header
      * @param bool $footer
      */
-    public function show($name, $header = true, $footer = true)
+    protected function __show($name = null, $header = true, $footer = true)
     {
         if ($header) {
             parent::display('../header');
         }
+        $name = $name ?: $this->_request->getActionName();
         $this->display($name);
         if ($footer) {
             parent::display('../footer');

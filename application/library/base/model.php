@@ -8,6 +8,8 @@
  */
 class base_model
 {
+    use Instance;
+
     /**
      * 表名
      * @var string
@@ -33,23 +35,6 @@ class base_model
      * @var bool 是否初始化
      */
     protected $__is_init = false;
-
-
-    /**
-     * @param string $id
-     * @return $this
-     */
-    public static function instance($id = '')
-    {
-        static $instances = [];
-        $class = get_called_class();
-        $key = $id !== '' ? $class . $id : $class;
-        if (!isset($instances[$key])) {
-            $instances[$key] = new $class($id);
-        }
-
-        return $instances[$key];
-    }
 
     /**
      * @param null $tableName
@@ -98,6 +83,7 @@ class base_model
                 }
             }
             $this->__is_init = $is_init;
+            $this->__info = $find;
         }
         return $this;
     }

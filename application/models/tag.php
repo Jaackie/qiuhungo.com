@@ -8,6 +8,8 @@ class tagModel extends base_model
 {
     public $tag_id;
     public $tag_name = '';
+    public $cover = '';
+    public $video_num = 0;
     public $intro = '';
     public $create_time = 0;
     public $update_time = 0;
@@ -89,7 +91,7 @@ class tagModel extends base_model
             'intro' => $this->intro,
             'create_time' => $this->create_time,
             'update_time' => $this->update_time
-        ]);
+        ], true);
     }
 
     /**
@@ -104,6 +106,33 @@ class tagModel extends base_model
         }
 
         return $this->_insert();
+    }
+
+    /**
+     * 更新视频数量
+     * @param $num
+     * @param string $opt
+     * @return bool|int
+     */
+    public function updateVideoNum($num, $opt = '+')
+    {
+        if (!$this->tag_id) return false;
+
+        return $this->table()->set('video_num', $num, $opt)->whereField('tag_id', $this->tag_id)->update();
+    }
+
+    /**
+     * 一组含tag_id的列表增加tag信息
+     * @param $tagList
+     */
+    public function withTagInfo(&$tagList)
+    {
+        if (!$tagList) return;
+
+        $tag_id_arr = tool_arr::getKeyArrFromArr($tagList, 'tag_id');
+        $list = $this->table()->whereIn('tag_id', $tag_id_arr)->get();
+
+        tool_arr::mergeArr($tagList, $list, 'tag_id');
     }
 
 

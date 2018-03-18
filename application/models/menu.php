@@ -18,8 +18,8 @@ class menuModel
                 'name' => '视频管理',
                 'icon' => 'file-movie',
                 'action' => [
-//                    'index' => '列表',
-                    'upload' => '视频上传',
+                    'index' => '列表',
+                    'upload' => '上传',
                 ],
             ],
         ];

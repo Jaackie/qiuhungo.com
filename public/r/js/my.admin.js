@@ -218,7 +218,7 @@ $.extend({
         $(this).ajaxForm(opts);
     };
 
-    $.extend({
+    /*$.extend({
         formAjaxUpload: function (json_data) {
             // FormData 对象
             var form = new FormData();
@@ -228,7 +228,7 @@ $.extend({
             var xhr = new XMLHttpRequest();
             xhr.open("post", json_data.url, true);
             xhr.onload = function (e) {
-                if (this.status == 200) {
+                if (this.status === 200) {
                     var data = this.responseText;
                     data = JSON.parse(data);
                     json_data.success(data);
@@ -238,5 +238,5 @@ $.extend({
             };
             xhr.send(form);
         }
-    });
+    });*/
 })(jQuery);

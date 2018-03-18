@@ -75,70 +75,118 @@ class tagVideoModel extends base_model
         if (!$this->tag_id || !$this->video_id) return false;
 
         $this->_setCreateTime();
-        return $this->table()->insert([
+        $res = $this->table()->insert([
             'tag_id' => $this->tag_id,
             'video_id' => $this->video_id,
             'create_time' => $this->create_time
         ]);
-    }
-
-    /**
-     * @param $tagIdArr
-     * @return bool|int
-     */
-    private function _insertMulti($tagIdArr)
-    {
-        if (!$this->video_id || !$tagIdArr) return false;
-
-        $insert = [];
-        $this->_setCreateTime();
-        foreach ($tagIdArr as $tag_id) {
-            if ($tag_id) {
-                $insert[] = [
-                    'tag_id' => $tag_id,
-                    'video_id' => $this->video_id,
-                    'create_time' => $this->create_time,
-                ];
-            }
+        if ($res) {
+            tagModel::instance()->setTagId($this->tag_id)->updateVideoNum(1, '+');
         }
-        if (!$insert) return false;
-
-        return $this->table()->insertMulti($insert);
+        return $res;
     }
 
     /**
      * @return bool|int
      */
-    public function add()
+    private function _del()
     {
-        if (!$this->tag_id || !$this->video_id) return false;
-
-        if ($find = $this->findByTagIdVideoId()) {
-            return $find['id'];
+        $res = $this->delete();
+        if ($res) {
+            tagModel::instance()->setTagId($this->tag_id)->updateVideoNum(1, '+');
         }
-
-        $this->_setCreateTime();
-        return $this->_insert();
+        return $res;
     }
 
 
     /**
-     * 通过tag字符串添加
+     * 通过tag字符串保存的
      * @param $str
      * @return bool|int
      */
-    public function addByTagStr($str)
+    public function saveByTagStr($str)
     {
-        if (!$str || !$this->video_id) return 0;
+        if (!$this->video_id) return 0;
 
-        $tag_name_arr = explode(',', str_replace('，', ',', $str));
-        $tag = new tagModel();
-        $tag_id_arr = [];
-        foreach ($tag_name_arr as $tag_name) {
-            $tag_id_arr[] = $tag->setTagName($tag_name)->add();
+        $res = 0;
+
+        $tag_video_list = $this->getListByVideoId(true);    //原有的关联
+
+
+        $tag_id_arr = [];   //新的关联
+        if ($str) {
+            $tag_name_arr = explode(',', str_replace('，', ',', $str));
+            $tag = tagModel::instance();
+            foreach ($tag_name_arr as $tag_name) {
+                $tag_id_arr[] = $tag->setTagName($tag_name)->add();
+            }
         }
 
-        return $this->_insertMulti($tag_id_arr);
+        if ($tag_id_arr) {
+            foreach ($tag_id_arr as $tag_id) {
+                if (!isset($tag_video_list[$tag_id])) {
+                    $res_add = $this->setTagId($tag_id)->_insert(); //增加的
+                    !$res_add ?: $res++;
+                }
+            }
+        }
+
+        if ($tag_video_list) {
+            foreach ($tag_video_list as $tag_id => $tag_video) {
+                if (!in_array($tag_id, $tag_id_arr)) {
+                    $res_del = $this->setId($tag_video['id'])->setTagId($tag_id)->_del();   //删除的
+                    !$res_del ?: $res++;
+                }
+            }
+        }
+
+        return $res;
+    }
+
+    /**
+     * @param bool $assoc
+     * @return array
+     */
+    public function getListByVideoId($assoc = false)
+    {
+        if (!$this->video_id) return [];
+
+        $list = $this->table()->whereField('video_id', $this->video_id)->get();
+        if ($assoc) {
+            tool_arr::assocByKey($list, 'tag_id');
+        }
+        return $list;
+    }
+
+    /**
+     * 给视频列表添加上tag信息
+     * @param $videoList
+     * @param bool $withTagInfo
+     */
+    public function videoListWithTagList(&$videoList, $withTagInfo = false)
+    {
+        if (!$videoList) return;
+
+        $video_id_arr = tool_arr::getKeyArrFromArr($videoList, 'video_id');
+        $list = $this->table()->whereIn('video_id', $video_id_arr)->get();
+        if ($withTagInfo) {
+            tagModel::instance()->withTagInfo($list);
+        }
+        tool_arr::mergeArrMulti($videoList, $list, 'video_id', 'tags');
+    }
+
+    /**
+     * 给单个视频添加上tag信息
+     * @param $videoInfo
+     * @param bool $withTagInfo
+     */
+    public function videoWithTagList(&$videoInfo, $withTagInfo = false)
+    {
+        if (!$videoInfo) return;
+
+        $videoList = [$videoInfo];
+        $this->videoListWithTagList($videoList, $withTagInfo);
+        $videoInfo = $videoList[0];
     }
 
 

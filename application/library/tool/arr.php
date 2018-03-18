@@ -182,7 +182,7 @@ class tool_arr
     {
         if (!$arr1) return;
 
-        self::getArrKey($arr2, $keyName);
+        self::assocByKey($arr2, $keyName);
 
         foreach ($arr1 as $i => $val) {
             if (array_key_exists($val[$keyName], $arr2)) {
@@ -210,7 +210,7 @@ class tool_arr
     {
         if (!$arr1) return;
 
-        self::getArrKey($arr2, $keyName);
+        self::assocByKey($arr2, $keyName);
 
         foreach ($arr1 as $i => $val) {
             if (array_key_exists($val[$keyName], $arr2)) {
@@ -230,7 +230,7 @@ class tool_arr
      * @param int $number 合并数量
      * @param array $defaultArr
      */
-    public static function mergeArrMulti(&$arr1, $arr2, $keyName, $newKeyName, $number, $defaultArr = [])
+    public static function mergeArrMulti(&$arr1, $arr2, $keyName, $newKeyName, $number = 0, $defaultArr = [])
     {
         if (!$arr1) return;
 
@@ -240,7 +240,7 @@ class tool_arr
                 if ($val1[$keyName] == $val2[$keyName]) {
                     $arr1[$i][$newKeyName][] = $val2;
                 }
-                if (count($arr1[$i][$newKeyName]) == $number) {
+                if ($number && count($arr1[$i][$newKeyName]) == $number) {
                     break;
                 }
             }
@@ -253,7 +253,7 @@ class tool_arr
      * @param $arr
      * @param $keyName
      */
-    public static function getArrKey(&$arr, $keyName)
+    public static function assocByKey(&$arr, $keyName)
     {
         if (!$arr) return;
 
@@ -346,7 +346,7 @@ class tool_arr
         if (!$orderArr || !$keyArr || !$keyName) return;
 
         $arr_tmp = [];
-        self::getArrKey($orderArr, $keyName);
+        self::assocByKey($orderArr, $keyName);
         foreach ($keyArr as $key) {
             if (isset($orderArr[$key])) {
                 $arr_tmp[] = $orderArr[$key];

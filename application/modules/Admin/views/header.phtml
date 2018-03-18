@@ -14,9 +14,7 @@
 
     <script src="<?= r(); ?>js/main.min.js"></script>
     <script src="<?= r(); ?>js/jquery.form.js"></script>
-    <script src="<?= r(); ?>js/admin.js"></script>
-    <script>
-    </script>
+    <script src="<?= r(); ?>js/my.admin.js"></script>
 </head>
 
 <body>
@@ -68,9 +66,9 @@
             <!-- 左侧导航菜单 Start -->
             <nav class="menu" data-toggle="menu" id="mat-nav">
                 <ul class="nav">
-                    <!--                    <li class="header">菜单分类</li>-->
+                    <li class="header">菜单分类</li>
                     <?php foreach ($menu as $controller => $info): ?>
-                        <li class="nav-parent">
+                        <li class="nav-parent<?= $_c == $controller ? ' show' : ''; ?>">
                             <a href="<?= is_array($info['action']) ? 'javascript:;' : '/admin/' . $controller . '/' . $info['action']; ?>">
                                 <i class="icon icon-list"></i>
                                 <span class="title"><?= $info['name']; ?></span>

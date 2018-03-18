@@ -12,7 +12,7 @@ class IndexController extends base_controllerAdmin
     public function indexAction()
     {
         $this->_view->assign('name', $this->get('name', 'Jaackie'));
-        $this->show('hello');
+        $this->__show('hello');
     }
 
 }
