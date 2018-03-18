@@ -26,7 +26,7 @@ class base_controllerAdmin extends base_controller
     {
         $ip = tool_ip::get();
         if ($ip && $ip != 'unknown') {
-            $ip_list = file_get_contents(APPLICATION_PATH . '/conf/ip.text');
+            $ip_list = file_get_contents(APPLICATION_PATH . '/conf/ip.txt');
             $ip_arr = explode("\n", $ip_list);
             foreach ($ip_arr as $ip_white) {
                 if ($ip == $ip_white) {
