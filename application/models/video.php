@@ -157,11 +157,6 @@ class videoModel extends base_model
         return $this->save('intro,cover,time_length,update_time');
     }
 
-    public function getAll($page = 1, $num = 10)
-    {
-        return $this->table()->page($num, $page)->get();
-    }
-
     public function deleteVideo()
     {
         if (!$this->isInit()) return false;

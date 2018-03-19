@@ -144,4 +144,15 @@ class base_model
         return $this->table()->whereField($this->__primary_key, $id)->delete();
     }
 
+    /**
+     * 获取所有数据
+     * @param int $page
+     * @param int $num
+     * @return array
+     */
+    public function getAll($page = 1, $num = 10)
+    {
+        return $this->table()->page($num, $page)->get();
+    }
+
 }
