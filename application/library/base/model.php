@@ -148,11 +148,25 @@ class base_model
      * 获取所有数据
      * @param int $page
      * @param int $num
+     * @param bool $orderIsIncrease 是否按主键升序，默认降序
      * @return array
      */
-    public function getAll($page = 1, $num = 10)
+    public function getAll($page = 1, $num = 10, $orderIsIncrease = false)
     {
-        return $this->table()->page($num, $page)->get();
+        return $this->table()->page($num, $page)->order($this->__primary_key, $orderIsIncrease)->get();
+    }
+
+    /**
+     * 通过id获取批量数据
+     * @param $idArr
+     * @return array
+     */
+    public function getMulti($idArr)
+    {
+        tool_arr::checkIdArr($idArr);
+        if (!$idArr) return [];
+
+        return $this->table()->whereIn($this->__primary_key, $idArr)->get();
     }
 
 }

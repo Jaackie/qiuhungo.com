@@ -43,6 +43,7 @@ class base_controllerAdmin extends base_controller
      * @param $name
      * @param bool $header
      * @param bool $footer
+     * @return false
      */
     protected function __show($name = null, $header = true, $footer = true)
     {
@@ -53,6 +54,22 @@ class base_controllerAdmin extends base_controller
         $this->display($name);
         if ($footer) {
             parent::display('../footer');
+        }
+        return false || exit;
+    }
+
+    /**
+     * 显示单个页面
+     * @param null $name
+     * @param bool $exit
+     * @return bool
+     */
+    protected function __display($name = null, $exit = true)
+    {
+        $name = $name ?: $this->_request->getActionName();
+        parent::display($name);
+        if ($exit) {
+            return false || exit;
         }
     }
 

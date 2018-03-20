@@ -70,7 +70,7 @@
                     <?php foreach ($menu as $controller => $info): ?>
                         <li class="nav-parent<?= $_c == $controller ? ' show' : ''; ?>">
                             <a href="<?= is_array($info['action']) ? 'javascript:;' : '/admin/' . $controller . '/' . $info['action']; ?>">
-                                <i class="icon icon-list"></i>
+                                <i class="icon <?= $info['icon']; ?>"></i>
                                 <span class="title"><?= $info['name']; ?></span>
                             </a>
                             <?php if (is_array($info['action'])): ?>

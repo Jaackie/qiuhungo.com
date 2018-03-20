@@ -16,10 +16,17 @@ class menuModel
             ],*/
             'video' => [
                 'name' => '视频管理',
-                'icon' => 'file-movie',
+                'icon' => 'icon-file-movie',
                 'action' => [
                     'index' => '列表',
                     'upload' => '上传',
+                ],
+            ],
+            'config' => [
+                'name' => '配置管理',
+                'icon' => 'icon-sliders',
+                'action' => [
+                    'index' => '首页',
                 ],
             ],
         ];
