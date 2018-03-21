@@ -81,6 +81,7 @@ class VideoController extends base_controllerAdmin
             $uri = $uploader->uploadImage();
             if (!$uri) $this->__errorAjax($uploader->getError()['msg']);
 
+            imgModel::instance()->setUrl($uri)->add();
             $res_info = $video->setCover($uri)->saveInfo();
         } else { //保存其它东西
             $intro = $this->post('intro', '');

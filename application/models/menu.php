@@ -26,7 +26,14 @@ class menuModel
                 'name' => '配置管理',
                 'icon' => 'icon-sliders',
                 'action' => [
-                    'index' => '首页',
+                    'index' => '列表',
+                ],
+            ],
+            'resource' => [
+                'name' => '资源管理',
+                'icon' => 'icon-file-o',
+                'action' => [
+                    'index' => '列表',
                 ],
             ],
         ];
