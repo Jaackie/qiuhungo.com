@@ -40,6 +40,7 @@ class ConfigController extends base_controllerAdmin
         $config = configModel::instance();
         if (!is_ajax()) {
             $id = $this->get('id');
+            $row = $this->get('row', 0);
             $config->setId($id)->init();
             if (!$config->isInit()) {
                 $this->__errorAjax('该配置不存在');
@@ -47,15 +48,16 @@ class ConfigController extends base_controllerAdmin
             $method_name = '_edit_' . $config->key;
 
             $this->__assign('info', $config->info());
-            if (method_exists($this, $method_name)) {
+            if (!$row && method_exists($this, $method_name)) {
                 $this->$method_name($config);
             }
-            $this->__display();
+            $this->__assign('row', $row)->__display();
         }
 
         $id = $this->requirePost('id');
         $intro = $this->post('intro', '');
         $value = $this->post('value', '');
+        $row = $this->post('row', 0);
 
         $config->setId($id)->init();
         if (!$config->isInit()) {
@@ -63,11 +65,11 @@ class ConfigController extends base_controllerAdmin
         }
 
         $method_name = '_edit_' . $config->key;
-        if (method_exists($this, $method_name)) {
+        if (!$row && method_exists($this, $method_name)) {
             $value = $this->$method_name($config);
         }
 
-        if ($config->value == $value) {
+        if ($config->value == $value && $config->intro == $intro) {
             $this->__successAjax();
         }
         $res = $config->setIntro($intro)->setValue($value)->update();
@@ -125,8 +127,9 @@ class ConfigController extends base_controllerAdmin
         if (!$hot_arr) $this->__errorAjax('热门配置错误');
         $tag_arr = tagModel::instance()->getMulti(explode(',', $tag));
         if (!$tag_arr) $this->__errorAjax('分类配置错误');
+        tagVideoModel::instance()->tagListWithVideoList($tag_arr, config_indexModel::TAG_VIDEO_NUM, true);
 
-        return ['nav' => $nav_arr, 'hot' => $hot_arr, 'tag' => $tag_arr];
+        return ['nav' => $nav_arr, 'hot' => $hot_arr, 'tag' => $tag_arr, 'last' => time()];
     }
 
 }

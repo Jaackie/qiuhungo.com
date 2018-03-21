@@ -22,6 +22,8 @@
                 </td>
                 <td>
                     <a data-remote="/admin/config/edit?is_ajax=0&id=<?= $row['id']; ?>" data-toggle="modal">编辑</a>
+                    <a data-remote="/admin/config/edit?is_ajax=0&id=<?= $row['id']; ?>&row=1"
+                       data-toggle="modal">编辑源</a>
                 </td>
             </tr>
         <?php endforeach; ?>

@@ -23,3 +23,30 @@ function is_ajax()
     return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest';
 }
 
+/**
+ * 打印数据
+ */
+function __d()
+{
+    $args = func_get_args();
+    echo "<pre>";
+    foreach ($args as $arg) {
+        var_export($arg);
+    }
+    echo "</pre>";
+}
+
+/**
+ * 打印数据并退出
+ */
+function __dd()
+{
+    $args = func_get_args();
+    echo "<pre>";
+    foreach ($args as $arg) {
+        var_export($arg);
+    }
+    echo "</pre>";
+    exit;
+}
+

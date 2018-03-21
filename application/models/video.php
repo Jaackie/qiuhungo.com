@@ -168,5 +168,19 @@ class videoModel extends base_model
         return $res;
     }
 
+    /**
+     * 合并上视频信息
+     * @param $videoList
+     */
+    public function withVideoInfo(&$videoList)
+    {
+        if (!$videoList) return;
+        $video_id_arr = tool_arr::getId($videoList, 'video_id');
+        if (!$video_id_arr) return;
+
+        $video_list = $this->table()->whereIn('video_id', $video_id_arr)->get();
+        tool_arr::mergeArr($videoList, $video_list, 'video_id');
+    }
+
 
 }

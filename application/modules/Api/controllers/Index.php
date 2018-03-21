@@ -11,7 +11,8 @@ class IndexController extends base_controllerApi
 
     public function indexAction()
     {
-        echo 'Jaackie Admin!';
+        $data = config_indexModel::instance()->initByKey()->getValue();
+        __d($data);
     }
 
 }
