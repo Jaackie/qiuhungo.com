@@ -12,7 +12,7 @@ class IndexController extends base_controllerApi
     public function indexAction()
     {
         $data = config_indexModel::instance()->initByKey()->getValue();
-        __d($data);
+        $this->__result($data);
     }
 
 }
