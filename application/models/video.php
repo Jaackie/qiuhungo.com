@@ -179,6 +179,7 @@ class videoModel extends base_model
         if (!$video_id_arr) return;
 
         $video_list = $this->table()->whereIn('video_id', $video_id_arr)->get();
+        rr($video_list, 'cover,url');
         tool_arr::mergeArr($videoList, $video_list, 'video_id');
     }
 

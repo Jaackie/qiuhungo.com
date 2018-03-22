@@ -129,6 +129,9 @@ class ConfigController extends base_controllerAdmin
         if (!$tag_arr) $this->__errorAjax('分类配置错误');
         tagVideoModel::instance()->tagListWithVideoList($tag_arr, config_indexModel::TAG_VIDEO_NUM, true);
 
+        rr($hot_arr, 'url,cover');
+        rr($nav_arr, 'img');
+
         return ['nav' => $nav_arr, 'hot' => $hot_arr, 'tag' => $tag_arr, 'last' => time()];
     }
 

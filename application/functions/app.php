@@ -4,11 +4,20 @@
  * @Date 2018/3/14
  */
 
+/**
+ * 获取资源路径
+ * @return mixed
+ */
 function r()
 {
     $config = Yaf_Registry::get("config");
     return $config['application']['resource'];
 }
+
+/**
+ * 资源路径
+ */
+define('R', r());
 
 function include_view($viewName, $module = 'Admin')
 {
@@ -21,6 +30,25 @@ function is_ajax()
         return $_REQUEST['is_ajax'] != 0;
     }
     return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest';
+}
+
+function rr(&$data, $field = '')
+{
+    if (is_array($data)) {
+        if (!$data) return;
+        $fieldArr = explode(',', $field);
+        foreach ($data as &$val) {
+            foreach ($fieldArr as $k) {
+                if (isset($val[$k])) {
+                    $val[$k] = R . $val[$k];
+                }
+            }
+        }
+    } elseif (is_string($data)) {
+        $data = R . $data;
+    } else {
+        return;
+    }
 }
 
 /**
