@@ -43,6 +43,17 @@ class tagModel extends base_model
     }
 
     /**
+     * @param string $cover
+     * @return $this
+     */
+    public function setCover($cover)
+    {
+        $this->cover = $cover;
+        return $this;
+    }
+
+
+    /**
      * @param string $intro
      * @return $this
      */
@@ -88,6 +99,7 @@ class tagModel extends base_model
         $this->_setCreateTime()->_setUpdateTime();
         return $this->table()->insert([
             'tag_name' => $this->tag_name,
+            'cover' => $this->cover,
             'intro' => $this->intro,
             'create_time' => $this->create_time,
             'update_time' => $this->update_time
@@ -119,6 +131,16 @@ class tagModel extends base_model
         if (!$this->tag_id) return false;
 
         return $this->table()->set('video_num', $num, $opt)->whereField('tag_id', $this->tag_id)->update();
+    }
+
+    /**
+     * 更新信息
+     * @return bool|int
+     */
+    public function updateInfo()
+    {
+        $this->_setUpdateTime();
+        return $this->save('tag_name,cover,intro,update_time');
     }
 
     /**

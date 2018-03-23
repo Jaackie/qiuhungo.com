@@ -83,5 +83,16 @@ class base_controllerAdmin extends base_controller
         $this->__response($code, $data, $message);
     }
 
+    protected function __errorPage($message = '', $code = 1, $data = [])
+    {
+        echo $message;
+        return false || exit;
+    }
+
+    protected function __e($message = '', $code = 1, $data = [])
+    {
+        is_ajax() ? $this->__errorAjax($message, $code, $data) : $this->__errorPage($code, $message, $data);
+    }
+
 
 }

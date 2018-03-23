@@ -90,6 +90,20 @@ class base_controller extends Yaf_Controller_Abstract
     }
 
     /**
+     * @param string $keyName
+     * @param mixed $defaultValue
+     * @return mixed
+     */
+    public function input($keyName, $defaultValue = null)
+    {
+        if (isset($_REQUEST[$keyName])) {
+            return $_REQUEST[$keyName];
+        } else {
+            return $defaultValue;
+        }
+    }
+
+    /**
      * Return result
      * @param mixed $result
      * @param string $message

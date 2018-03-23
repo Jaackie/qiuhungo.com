@@ -93,7 +93,7 @@ class tagVideoModel extends base_model
     {
         $res = $this->delete();
         if ($res) {
-            tagModel::instance()->setTagId($this->tag_id)->updateVideoNum(1, '+');
+            tagModel::instance()->setTagId($this->tag_id)->updateVideoNum(1, '-');
         }
         return $res;
     }

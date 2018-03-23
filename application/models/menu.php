@@ -22,6 +22,13 @@ class menuModel
                     'upload' => '上传',
                 ],
             ],
+            'tag' => [
+                'name' => '分类管理',
+                'icon' => 'icon-tags',
+                'action' => [
+                    'index' => '列表',
+                ],
+            ],
             'config' => [
                 'name' => '配置管理',
                 'icon' => 'icon-sliders',
