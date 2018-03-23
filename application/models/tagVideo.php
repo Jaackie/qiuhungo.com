@@ -180,7 +180,7 @@ class tagVideoModel extends base_model
      * @param $videoInfo
      * @param bool $withTagInfo
      */
-    public function videoWithTagList(&$videoInfo, $withTagInfo = false)
+    public function videoWithTagList(&$videoInfo, $withTagInfo = true)
     {
         if (!$videoInfo) return;
 
@@ -202,7 +202,7 @@ class tagVideoModel extends base_model
         if (!$tag_id_arr) return;
 
         $video_list = $this->table()->whereIn('tag_id', $tag_id_arr)
-            ->order('id', false)
+            ->order($this->__primary_key, false)
             ->limit($num * 30)/*30倍的数量查找*/
             ->get();
         if ($withVideoInfo) {
@@ -210,6 +210,27 @@ class tagVideoModel extends base_model
         }
 
         tool_arr::mergeArrMulti($tagList, $video_list, 'tag_id', 'video_list', $num);
+    }
+
+    /**
+     * 通过tag_id获取视频列表
+     * @param int $page
+     * @param int $num
+     * @param bool $withVideoInfo
+     * @return array
+     */
+    public function getListByTagId($page = 1, $num = 10, $withVideoInfo = true)
+    {
+        if (!$this->tag_id) return [];
+
+        $list = $this->table()->whereField('tag_id', $this->tag_id)
+            ->page($num, $page)
+            ->order($this->__primary_key, false)
+            ->get();
+        if ($withVideoInfo) {
+            videoModel::instance()->withVideoInfo($list);
+        }
+        return $list;
     }
 
 

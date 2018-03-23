@@ -32,15 +32,23 @@ function is_ajax()
     return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest';
 }
 
-function rr(&$data, $field = '')
+function rr(&$data, $field = '', $depth = 2)
 {
     if (is_array($data)) {
         if (!$data) return;
         $fieldArr = explode(',', $field);
-        foreach ($data as &$val) {
+        if ($depth == 2) {
+            foreach ($data as &$val) {
+                foreach ($fieldArr as $k) {
+                    if (isset($val[$k])) {
+                        $val[$k] = R . $val[$k];
+                    }
+                }
+            }
+        } elseif ($depth == 1) {
             foreach ($fieldArr as $k) {
-                if (isset($val[$k])) {
-                    $val[$k] = R . $val[$k];
+                if (isset($data[$k])) {
+                    $data[$k] = R . $data[$k];
                 }
             }
         }
