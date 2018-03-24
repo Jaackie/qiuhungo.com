@@ -15,6 +15,7 @@ class VideoController extends base_controllerApi
             $this->__error(res_msg::VIDEO_NONE);
         }
         $video_info = $video->info();
+        $video->setViewNum(1)->saveViewNum();
         tagVideoModel::instance()->videoWithTagList($video_info, true);
         rr($video_info, 'url,cover', 1);
         $this->__result(['video' => $video_info]);

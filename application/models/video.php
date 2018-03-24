@@ -157,6 +157,11 @@ class videoModel extends base_model
         return $this->save('intro,cover,time_length,update_time');
     }
 
+    public function saveViewNum()
+    {
+        return $this->save('view_num');
+    }
+
     public function deleteVideo()
     {
         if (!$this->isInit()) return false;
